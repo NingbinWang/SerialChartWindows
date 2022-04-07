@@ -1,6 +1,6 @@
 ﻿// SerialChart.cpp : 定义应用程序的入口点。
 //
-
+//1、设计窗口类；2、注册窗口类；3、创建窗口；4、显示窗口；5、更新窗口；6、消息循环
 #include "framework.h"
 #include "SerialChart.h"
 
@@ -16,7 +16,7 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-
+//入口函数
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -64,22 +64,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
+    //设计窗口类
     WNDCLASSEXW wcex;
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
+    wcex.style          = CS_HREDRAW | CS_VREDRAW;//窗口类型
+    wcex.lpfnWndProc    = WndProc;//窗口处理函数
+    wcex.cbClsExtra     = 0; //窗口扩展
+    wcex.cbWndExtra     = 0; //窗口实例扩展
     wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SERIALCHART));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_SERIALCHART);
-    wcex.lpszClassName  = szWindowClass;
+    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SERIALCHART));//窗口的最小化图标
+    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);//窗口鼠标光标
+    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);//窗口背景色
+    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_SERIALCHART);//窗口菜单
+    wcex.lpszClassName  = szWindowClass;//窗口的类名
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-
+    //注册窗口类
     return RegisterClassExW(&wcex);
 }
 
@@ -96,15 +97,15 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 将实例句柄存储在全局变量中
-
+   //创建窗口
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
-
+   //检查窗口是否创建成功
    if (!hWnd)
    {
       return FALSE;
    }
-
+   //显示窗口和更新窗口
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -151,7 +152,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_DESTROY:
-        PostQuitMessage(0);
+        PostQuitMessage(0);//终止程序
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
